@@ -6,7 +6,7 @@ document.querySelector('#btn').addEventListener('click', function() {
     removeGrid();   
     createGrid(userInput);
     isSelected(); 
-}
+    }
 })
 
 function createGrid(x) {
@@ -30,15 +30,22 @@ function removeGrid() {
     }
 }
 
-function isSelected() {
+function isSelected() {  
+    let isMouseDown = false; // initialize flag to false
     const gridElements = document.querySelectorAll('.grid');
     gridElements.forEach(function (gridElement) {
+        gridElement.addEventListener('mousedown', () => {
+            isMouseDown = true; // set flag to true when mouse is down
+        });
+        gridElement.addEventListener('mouseup', () => {
+            isMouseDown = false; // set flag to false when mouse is up
+        });
         gridElement.addEventListener('mouseover', () => {
-            if (gridElement.matches(':hover')) {
-                let r = Math.floor(Math.random() * 256) 
-                let g = Math.floor(Math.random() * 256)
-                let b = Math.floor(Math.random() * 256)             
-                gridElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")"; 
+            if (isMouseDown) { // only change color if mouse is down
+                let r = Math.floor(Math.random() * 256);
+                let g = Math.floor(Math.random() * 256);
+                let b = Math.floor(Math.random() * 256);
+                gridElement.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
             }
         });
     });
